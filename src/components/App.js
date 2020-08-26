@@ -31,6 +31,11 @@ class Game extends Component {
             playerX: players.playerX,
         });
     };
+    handleChangeTurn = () => {
+        this.setState({
+            turn: this.state.turn === 1 ? 2 : 1,
+        });
+    };
     handleNewGame = () => {
         this.setState({
             start: false,
@@ -55,9 +60,11 @@ class Game extends Component {
                 />
                 <Board
                     newGame={this.handleNewGame}
+                    changeTurn={this.handleChangeTurn}
                     isPlaying={this.state.isPlaying}
                     playerX={this.state.playerX}
                     playerO={this.state.playerO}
+                    turn={this.state.turn}
                 />
             </>
         );

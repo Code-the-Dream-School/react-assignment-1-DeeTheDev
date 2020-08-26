@@ -1,46 +1,35 @@
+// ---------------- Needs refactoring
+
 import React, { useState } from "react";
 import Cell from "./Cell";
 import X from "../images/1.png";
 import Y from "../images/0.png";
-//--------------------------------------------------------------------------------------
-//------------------------------------------- Needs work and refactoring later-------
-//--------------------------------------------------------------------------------------
 
 // Main Board
 const Board = (props) => {
-    const [boardSquares, setBoardSquares] = useState(Array(9).fill(null));
+    //icons stored in variables
+    let XIcon = <img src={X} className="icon" alt="TicTacToe Logo" />;
+    let YIcon = <img src={Y} className="icon" alt="TicTacToe Logo" />;
+    //board filled with null
+    let [boardSquares, setBoardSquares] = useState(Array(9).fill(null));
     //turn state
-    const [xIsNext, setXIsNext] = useState(true);
+    let turn = props.turn;
     //handles click event for each CELL
     const handleCellClick = (index) => {
         //copy version of boardSquares
-        const squares = [...boardSquares];
+        let squares = [...boardSquares];
         //check if squares are filled inside board array and return
         if (whoIsWinner(boardSquares) || squares[index]) return;
         //insert X or O icon depending on who is Next
-        squares[index] = xIsNext ? "X" : "O";
-
-        // ------------------------ NEEDS ATTENTION, does not determine winner due to logo
-        // (
-        //     <img src={X} className="squareIcon" alt="TicTacToe Logo" />
-        // ) : (
-        //     <img src={Y} className="squareIcon" alt="TicTacToe Logo" />
-        // );
-
+        squares[index] = turn === 1 ? 1 : 2;
+        //change turn from app js
+        props.changeTurn();
         setBoardSquares(squares);
-        setXIsNext(!xIsNext);
     };
-
-    //check players turn and determin and display winner
-    let status;
-    const winner = whoIsWinner(boardSquares);
-    status = winner
-        ? `Winner is: ${winner}`
-        : `Player Turn: ${xIsNext ? "X" : "O"}`;
 
     //add winning combos and function to check if there is winner
     function whoIsWinner(squares) {
-        const winningCombos = [
+        let winningCombos = [
             //across
             [0, 1, 2],
             [3, 4, 5],
@@ -68,6 +57,10 @@ const Board = (props) => {
         //  return winner, else return null
         return null;
     } // end whoIsWinner
+    //check players turn and determin and display winner
+    let status;
+    let winner = whoIsWinner(boardSquares);
+    status = winner ? winner : `Player Turn: ${turn === 1 ? "X" : "O"}`;
     let genCell = (index) => {
         return (
             <Cell
@@ -83,7 +76,11 @@ const Board = (props) => {
         //reset board array items to null
         setBoardSquares(Array(9).fill(null));
     };
-    //store props inside varialbes
+    //handle Reset game
+    const handleResetGame = () => {
+        setBoardSquares(Array(9).fill(null));
+    };
+    //store props inside variables
     const isPlaying = props.isPlaying;
     // RETURN logic with conditional statement
     if (isPlaying) {
@@ -101,7 +98,10 @@ const Board = (props) => {
                     </p>
                 </div>
                 <div className="together">
-                    <p>{status}</p>
+                    <p>
+                        {status === 1 || status === 2 ? "Winner is " : null}
+                        {status === 1 ? XIcon : status === 2 ? YIcon : status}
+                    </p>
                 </div>
                 <div className="together"></div>
                 <div className="board">
@@ -129,7 +129,11 @@ const Board = (props) => {
                     >
                         New Game
                     </button>
-                    <button type="submit" className="btn btn-primary">
+                    <button
+                        type="submit"
+                        className="btn btn-primary"
+                        onClick={handleResetGame}
+                    >
                         Reset
                     </button>
                 </div>
