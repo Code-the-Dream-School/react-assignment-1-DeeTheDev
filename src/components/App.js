@@ -5,16 +5,60 @@ import Board from "./Board";
 //    main component which is rendered in the DOM
 
 class Game extends Component {
+    state = {
+        isPlaying: false,
+        playerO: "",
+        playerX: "",
+        reset: false,
+        start: false,
+        turn: 0,
+    };
+    handleChangeStart = () => {
+        this.setState({
+            start: true,
+        });
+    };
+    handleStartGame = () => {
+        this.setState({
+            turn: 1,
+            isPlaying: true,
+        });
+    };
     handleAddPlayers = (players) => {
-        //needs work------------------------------------------
-        console.log(players);
+        //set players names through the players variable passed by info comp addPlayers function
+        this.setState({
+            playerO: players.playerO,
+            playerX: players.playerX,
+        });
+    };
+    handleNewGame = () => {
+        this.setState({
+            start: false,
+            isPlaying: false,
+            playerX: "",
+            playerO: "",
+            turn: 0,
+        });
     };
     render() {
         return (
             <>
-                <Header />
-                <Info addPlayers={this.handleAddPlayers} />
-                <Board p1name={this.props.p1} />
+                <Header
+                    start={this.state.start}
+                    changeStart={this.handleChangeStart}
+                />
+                <Info
+                    start={this.state.start}
+                    turn={this.state.turn}
+                    startGame={this.handleStartGame}
+                    addPlayers={this.handleAddPlayers}
+                />
+                <Board
+                    newGame={this.handleNewGame}
+                    isPlaying={this.state.isPlaying}
+                    playerX={this.state.playerX}
+                    playerO={this.state.playerO}
+                />
             </>
         );
     }

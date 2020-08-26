@@ -10,49 +10,61 @@ const Info = (props) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const players = {
-            player1: player1Input.current.value,
-            player2: player2Input.current.value,
+            playerX: player1Input.current.value,
+            playerO: player2Input.current.value,
         };
+        props.startGame();
         props.addPlayers(players);
         e.currentTarget.reset();
         // this.props.addPlayers(this.player1Input.current.value);
     };
-
-    return (
-        <div className="center">
-            <form className="center" onSubmit={handleSubmit}>
-                <div className="form-row">
-                    <div className="col">
-                        <label>
-                            Name
-                            <img src={X} className="icon" alt="X icon" />
-                        </label>
-                        <input
-                            type="text"
-                            ref={player1Input}
-                            className="form-control"
-                        />
+    //store props inside variables for cleaner code
+    const start = props.start;
+    const turn = props.turn;
+    //return Logic with conditional statements
+    if (start && turn === 0) {
+        return (
+            <div className="center">
+                <form className="center" onSubmit={handleSubmit}>
+                    <div className="form-row">
+                        <div className="form-grou col-md-6">
+                            <label>
+                                Name
+                                <img src={X} className="icon" alt="X icon" />
+                            </label>
+                            <input
+                                type="text"
+                                ref={player1Input}
+                                className="form-control"
+                                maxLength="15"
+                            />
+                        </div>
+                        <div className="form-group col-md-6">
+                            <label>
+                                Name
+                                <img
+                                    src={Y}
+                                    className="icon ml-1"
+                                    alt="Y icon"
+                                />
+                            </label>
+                            <input
+                                type="text"
+                                ref={player2Input}
+                                className="form-control"
+                                maxLength="15"
+                            />
+                        </div>
                     </div>
-                    <div className="col">
-                        <label>
-                            Name
-                            <img src={Y} className="icon" alt="Y icon" />
-                        </label>
-                        <input
-                            type="text"
-                            ref={player2Input}
-                            className="form-control"
-                        />
-                    </div>
-                </div>
-                <input
-                    type="submit"
-                    className="btn btn-primary"
-                    value="Add Players"
-                />
-            </form>
-        </div>
-    );
+                    <button type="submit" className="btn btn-primary">
+                        Add Players
+                    </button>
+                </form>
+            </div>
+        );
+    }
+    // if start is true, return nothing
+    return null;
 };
 
 export default Info;

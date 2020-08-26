@@ -3,13 +3,27 @@ import logo from "../images/logo.png";
 //  this is the component that displays the logo and start button at the beginning
 
 const Header = (props) => {
-    return (
-        <div className="center">
-            <img src={logo} className="logo" alt="TicTacToe Logo" />
-            <h1>TIC TAC TOE</h1>
-            <button className="btn btn-primary">Start</button>
-        </div>
-    );
+    //store props.start inside variable as TRUE (just for compiling the condition in order)
+    const start = !props.start;
+    //when start is TRUE
+    if (start) {
+        return (
+            <div className="center">
+                <img src={logo} className="logo" alt="TicTacToe Logo" />
+                <h1>TIC TAC TOE</h1>
+                <button className="btn btn-primary" onClick={props.changeStart}>
+                    Start
+                </button>
+            </div>
+        ); //end return
+    } else {
+        return (
+            <div className="center">
+                <img src={logo} className="logo" alt="TicTacToe Logo" />
+                <h1>TIC TAC TOE</h1>
+            </div>
+        );
+    }
 };
 
 export default Header;

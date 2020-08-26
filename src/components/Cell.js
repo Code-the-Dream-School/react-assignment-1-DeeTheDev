@@ -6,9 +6,9 @@ class Cell extends Component {
         return (
             <button
                 className="square btn btn-outline-primary"
-                onClick={this.props.onClick}
+                onClick={this.props.changeTurn}
             >
-                {this.props.icon}
+                {this.props.value}
             </button>
         );
     }
